@@ -8,18 +8,11 @@
 
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
 import {AuthContext} from './src/context/AuthContext';
 import * as Keychain from 'react-native-keychain';
 import Spinner from './src/components/Spinner';
+import Login from './src/components/Login';
+import Dashboard from './src/components/Dashboard';
 
 const App: () => Node = () => {
   const authContext = useContext(AuthContext);
@@ -54,25 +47,12 @@ const App: () => Node = () => {
   if (status === 'loading') {
     return <Spinner />;
   }
-};
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+  if (authContext?.authState?.authenticated === false) {
+    return <Login />;
+  } else {
+    return <Dashboard />;
+  }
+};
 
 export default App;
